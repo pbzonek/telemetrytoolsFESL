@@ -13,20 +13,43 @@
 #-------------------------------------------------------------#
 #-------------------------------------------------------------#
 
+
+#-------------------------------------------------------------#
+### Function to add a console message when functions are run
+#-------------------------------------------------------------#
+#' @import shiny
+#' @importFrom shinyjs runjs
+#'
+#' @noRd
+
+
+
+
 #Bring in packages used in functions
 library(ggplot2) #plotting package
-library(igraph) #plotting package
-library(rgdal) #geospatial package
+#library(igraph) #plotting package
+#library(rgdal) #geospatial package
 
-
-#' @import ggplot2
-#' @import igraph
-#' @import rgdal
-#' @import data.table
 
 #-------------------------------------------------------------#
 ### Function to summarize network data for analysis and plotting
 #-------------------------------------------------------------#
+#' @name network_summary
+#' @description #Summarize an input datatable to produce a dafaframe for plotting
+
+#' @param data The input datatable with FishID, ReceiverID, lat, and long columns
+#' @param FishID A column in data describing fish identity. Save as a factor
+#' @param ReceiverID A column in data describing acoustic reciever identity. Save as a factor
+#' @param lat numeric
+#' @param long numeric
+
+#' @returns receiver.location; moves.matrix; individual.moves; plot.data
+#' @export
+
+
+
+
+
 network_summary <- function(data, FishID, ReceiverID, lat, long, ...){
   data$FishID<- as.integer(FishID) #Show function where to find data
   data$ReceiverNames <- ReceiverID #Show function where to find data
@@ -82,6 +105,17 @@ network_summary <- function(data, FishID, ReceiverID, lat, long, ...){
 #-------------------------------------------------------------#
 ### Function to summarize network data for analysis and plotting
 #-------------------------------------------------------------#
+#' @name network_plot
+#' @description #Summarize an input datatable to produce a dafaframe for plotting
+
+#' @param data The input list created by the network_summary function. The list must include a dataframe titles plot.data
+
+#' @returns Asingle ggplot
+
+#' @import ggplot2
+
+#' @export
+
 network_plot <- function(data, #specify previously created network matrix
                          Min.traffic=1, #specify if you want ignore any lines below traffic threshold
                          shapefile=NA, xlim=NULL, ylim=NULL, #specify shapefile, and potential domain limits
