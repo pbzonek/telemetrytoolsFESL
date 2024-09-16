@@ -19,8 +19,6 @@
 #-------------------------------------------------------------#
 #' @import shiny
 #' @importFrom shinyjs runjs
-#'
-#' @noRd
 
 
 
@@ -34,22 +32,21 @@ library(ggplot2) #plotting package
 #-------------------------------------------------------------#
 ### Function to summarize network data for analysis and plotting
 #-------------------------------------------------------------#
+#' @title Summarize Network Plot Data
 #' @name network_summary
+#'
 #' @description #Summarize an input datatable to produce a dafaframe for plotting
-
+#'
 #' @param data The input datatable with FishID, ReceiverID, lat, and long columns
 #' @param FishID A column in data describing fish identity. Save as a factor
 #' @param ReceiverID A column in data describing acoustic reciever identity. Save as a factor
 #' @param lat numeric
 #' @param long numeric
-
+#'
 #' @returns receiver.location; moves.matrix; individual.moves; plot.data
+#'
 #' @export
-
-
-
-
-
+#'
 network_summary <- function(data, FishID, ReceiverID, lat, long, ...){
   data$FishID<- as.integer(FishID) #Show function where to find data
   data$ReceiverNames <- ReceiverID #Show function where to find data
@@ -105,17 +102,33 @@ network_summary <- function(data, FishID, ReceiverID, lat, long, ...){
 #-------------------------------------------------------------#
 ### Function to summarize network data for analysis and plotting
 #-------------------------------------------------------------#
+#' @title Plot Network Data
 #' @name network_plot
-#' @description #Summarize an input datatable to produce a dafaframe for plotting
-
-#' @param data The input list created by the network_summary function. The list must include a dataframe titles plot.data
-
-#' @returns Asingle ggplot
-
+#'
+#' @description Summarize an input datatable to produce a dataframe for plotting
+#'
+#' @param data The input list created by the network_summary function. The list must include a dataframe titled `plot.data`.
+#' @param Min.traffic Numeric. Specify if you want to ignore any lines below the traffic threshold. Default is 1.
+#' @param shapefile A spatial object to overlay on the plot. Default is NA.
+#' @param xlim Numeric. Optional limits for the x-axis.
+#' @param ylim Numeric. Optional limits for the y-axis.
+#' @param line.min Numeric. The minimum line width for the plot.
+#' @param line.max Numeric. The maximum line width for the plot.
+#' @param plot.title Character. Optional plot title.
+#' @param y.axis Character. Label for the y-axis. Default is "latitude".
+#' @param x.axis Character. Label for the x-axis. Default is "longitude".
+#' @param labels Logical. If TRUE, adds labels to the receivers on the plot. Default is FALSE.
+#' @param label.size Numeric. The size of the labels, if added. Default is 2.
+#' @param label.transparency Numeric. Transparency of labels, if added. Default is 0.6.
+#' @param label.nudge Numeric. Nudge the labels horizontally. Default is 0.
+#' @param ... Other arguments passed to internal functions.
+#'
+#' @return A single ggplot object displaying the network.
+#'
 #' @import ggplot2
-
+#'
 #' @export
-
+#'
 network_plot <- function(data, #specify previously created network matrix
                          Min.traffic=1, #specify if you want ignore any lines below traffic threshold
                          shapefile=NA, xlim=NULL, ylim=NULL, #specify shapefile, and potential domain limits
